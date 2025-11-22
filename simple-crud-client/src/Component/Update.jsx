@@ -1,14 +1,29 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { data, useLoaderData } from 'react-router-dom';
 
 const Update = () => {
   const loadedUser = useLoaderData();
+  const handleUpdate = event =>{
+    event.preventDefault();
+    const form = event.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    console.log(name,email);
+
+    fetch(`http://localhost:5000/users/${loadedUser._id},{
+      
+      }`)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+    })
+  }
 
   return (
     <div>
       <h3>Update information of {loadedUser?.name}</h3>
 
-      <form>
+      <form onSubmit={handleUpdate}>
         <input
           type="text"
           name="name"
