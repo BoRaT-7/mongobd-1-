@@ -24,20 +24,28 @@ async function run() {
 
     const userCollection = client.db('simpleCrudDB').collection('users');
 
-    // GET all
+    // GET all users
     app.get('/users', async (req, res) => {
       const users = await userCollection.find().toArray();
       res.send(users);
     });
 
-    // POST add new
+    // GET single user by ID
+    app.get('/users/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const user = await userCollection.findOne(query);
+      res.send(user);
+    });
+
+    // POST add user
     app.post('/users', async (req, res) => {
       const user = req.body;
       const result = await userCollection.insertOne(user);
       res.send(result);
     });
 
-    // DELETE
+    // DELETE user
     app.delete('/users/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
